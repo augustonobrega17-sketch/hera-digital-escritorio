@@ -6,15 +6,20 @@
     "tipo 'web': só abre o endereço. Campos: url.",
     "embutir: true abre dentro do escritório; 'espelho' passa por um proxy local para sites que recusam iframe; false manda abrir em outra aba.",
     "Opcionais: sobre (texto que aparece no monitor), dicas (lista de frases), aviso (faixa de alerta no monitor).",
-    "O escritório só executa o que está neste arquivo, e recusa comando com & | ; < > ` $."
+    "O escritório só executa o que está neste arquivo, e recusa comando com & | ; < > ` $.",
+    "autoLigar: true faz o escritório ligar o sistema sozinho na primeira vez que o vê (é o caso dos sistemas da Hera Digital, em sistemas/). Se você desligar, ele fica desligado."
   ],
   "exemplo": {
     "nome": "Agente de exemplo",
     "tipo": "local",
     "pasta": "exemplo-agente",
     "comando": "node",
-    "args": ["server.js"],
-    "env": { "PORT": "4401" },
+    "args": [
+      "server.js"
+    ],
+    "env": {
+      "PORT": "4401"
+    },
     "porta": 4401,
     "abre": "/",
     "sobre": "Um sistema mínimo que vem junto com o escritório, para mostrar como ele liga, embute e conversa com um agente. Copie a pasta exemplo-agente como ponto de partida, ou cadastre o seu projeto pela tela.",
@@ -22,6 +27,204 @@
       "Clique em Ligar e o escritório sobe o node server.js desta pasta",
       "Em Conversar, o Claude Code abre dentro da pasta do sistema e responde sobre ele",
       "Para tirar o exemplo, apague a entrada \"exemplo\" deste arquivo e demita o agente"
+    ]
+  },
+  "hera-estrategia": {
+    "nome": "Hera · Estratégia & Planejamento",
+    "tipo": "local",
+    "pasta": "sistemas/estrategia",
+    "comando": "node",
+    "args": [
+      "server.js"
+    ],
+    "env": {
+      "PORT": "4411"
+    },
+    "porta": 4411,
+    "abre": "/",
+    "autoLigar": true,
+    "sobre": "Planos de marketing por cliente, SWOT, frase de posicionamento, funil reverso (da meta de faturamento ao investimento) e distribuição de verba.",
+    "dicas": [
+      "Comece pela aba Funil reverso para calcular a verba de um cliente novo",
+      "O plano aprovado vira o briefing de tráfego, social e design"
+    ]
+  },
+  "hera-trafego": {
+    "nome": "Hera · Gestão de Tráfego Pago",
+    "tipo": "local",
+    "pasta": "sistemas/trafego",
+    "comando": "node",
+    "args": [
+      "server.js"
+    ],
+    "env": {
+      "PORT": "4412"
+    },
+    "porta": 4412,
+    "abre": "/",
+    "autoLigar": true,
+    "sobre": "Campanhas de Meta, Google e TikTok com CTR, CPC, CPL, CPA e ROAS calculados, alertas do dia e calculadoras de ROAS mínimo e orçamento.",
+    "dicas": [
+      "Atualize os números das campanhas toda manhã",
+      "A aba Alertas mostra quem está abaixo da meta e quem merece mais verba"
+    ]
+  },
+  "hera-social": {
+    "nome": "Hera · Social Media",
+    "tipo": "local",
+    "pasta": "sistemas/social",
+    "comando": "node",
+    "args": [
+      "server.js"
+    ],
+    "env": {
+      "PORT": "4413"
+    },
+    "porta": 4413,
+    "abre": "/",
+    "autoLigar": true,
+    "sobre": "Produção de posts em kanban (da ideia ao publicado), calendário editorial, métricas de engajamento e banco de ganchos.",
+    "dicas": [
+      "Arraste os posts entre as etapas",
+      "Lance alcance e interações dos publicados para alimentar o relatório do cliente"
+    ]
+  },
+  "hera-copy": {
+    "nome": "Hera · Copywriter",
+    "tipo": "local",
+    "pasta": "sistemas/copy",
+    "comando": "node",
+    "args": [
+      "server.js"
+    ],
+    "env": {
+      "PORT": "4414"
+    },
+    "porta": 4414,
+    "abre": "/",
+    "autoLigar": true,
+    "sobre": "Gerador de copy por fórmula (AIDA, PAS, Antes-Depois-Ponte, 4U, headlines), banco de copies com teste A/B e contador de caracteres por plataforma.",
+    "dicas": [
+      "Preencha o briefing no Gerador e salve as melhores no banco",
+      "Marque a vencedora do teste A/B"
+    ]
+  },
+  "hera-design": {
+    "nome": "Hera · Design & Direção de Arte",
+    "tipo": "local",
+    "pasta": "sistemas/design",
+    "comando": "node",
+    "args": [
+      "server.js"
+    ],
+    "env": {
+      "PORT": "4415"
+    },
+    "porta": 4415,
+    "abre": "/",
+    "autoLigar": true,
+    "sobre": "Fila de pedidos de criativos, paletas e regras de marca de cada cliente, guia de formatos por rede e checklist de entrega.",
+    "dicas": [
+      "Todo pedido de peça entra pela Fila com briefing e prazo",
+      "Cadastre a paleta de cada cliente novo"
+    ]
+  },
+  "hera-video": {
+    "nome": "Hera · Editor de Vídeo",
+    "tipo": "local",
+    "pasta": "sistemas/video",
+    "comando": "node",
+    "args": [
+      "server.js"
+    ],
+    "env": {
+      "PORT": "4416"
+    },
+    "porta": 4416,
+    "abre": "/",
+    "autoLigar": true,
+    "sobre": "Fila de edição, estrutura de vídeo curto cronometrada (gancho, contexto, desenvolvimento, prova, CTA) e checklist de publicação.",
+    "dicas": [
+      "Use a Estrutura para montar o roteiro antes de gravar"
+    ]
+  },
+  "hera-seo": {
+    "nome": "Hera · SEO & Blog",
+    "tipo": "local",
+    "pasta": "sistemas/seo",
+    "comando": "node",
+    "args": [
+      "server.js"
+    ],
+    "env": {
+      "PORT": "4417"
+    },
+    "porta": 4417,
+    "abre": "/",
+    "autoLigar": true,
+    "sobre": "Palavras-chave com nota de prioridade, pauta de artigos, simulador do resultado do Google e checklist on-page.",
+    "dicas": [
+      "Ordene pela Prioridade e ataque as palavras entre a 4ª e a 20ª posição primeiro"
+    ]
+  },
+  "hera-dados": {
+    "nome": "Hera · Dados & BI",
+    "tipo": "local",
+    "pasta": "sistemas/dados",
+    "comando": "node",
+    "args": [
+      "server.js"
+    ],
+    "env": {
+      "PORT": "4418"
+    },
+    "porta": 4418,
+    "abre": "/",
+    "autoLigar": true,
+    "sobre": "Painel da agência inteira: lê clientes, campanhas, posts, pipeline e produção dos outros sistemas e gera insights automáticos.",
+    "dicas": [
+      "Os números vêm dos outros sistemas: mantenha-os atualizados",
+      "Leve a aba Insights para a reunião de segunda"
+    ]
+  },
+  "hera-atendimento": {
+    "nome": "Hera · Atendimento & Sucesso do Cliente",
+    "tipo": "local",
+    "pasta": "sistemas/atendimento",
+    "comando": "node",
+    "args": [
+      "server.js"
+    ],
+    "env": {
+      "PORT": "4419"
+    },
+    "porta": 4419,
+    "abre": "/",
+    "autoLigar": true,
+    "sobre": "Carteira de clientes da Hera (usada por todos os sistemas), aprovações, agenda de contatos e relatório mensal automático para o cliente.",
+    "dicas": [
+      "Cliente novo é cadastrado aqui e aparece em todos os sistemas",
+      "O Relatório mensal junta tráfego, social, design, vídeo e SEO sozinho"
+    ]
+  },
+  "hera-comercial": {
+    "nome": "Hera · Comercial & Prospecção",
+    "tipo": "local",
+    "pasta": "sistemas/comercial",
+    "comando": "node",
+    "args": [
+      "server.js"
+    ],
+    "env": {
+      "PORT": "4420"
+    },
+    "porta": 4420,
+    "abre": "/",
+    "autoLigar": true,
+    "sobre": "Funil de vendas da Hera, gerador de proposta com a tabela de preços da agência e métricas comerciais. Lead fechado vira cliente sozinho.",
+    "dicas": [
+      "Arraste a oportunidade até Fechado para ela entrar na carteira de clientes",
+      "Os preços dos serviços ficam no topo do app.js deste sistema"
     ]
   }
 }

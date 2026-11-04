@@ -40,61 +40,61 @@ const ROSTER = (() => {
       look: { skin: '#c9854f', hair: '#140f0c', style: 'cacheado', shirt: '#38bdf8', pants: '#26304a', glasses: null, beard: null }
     },
     {
-      key: 'estrategia', name: 'Lia', role: 'Estratégia & Planejamento', emoji: '🧭', cat: 'sugerido',
+      key: 'estrategia', name: 'Lia', role: 'Estratégia & Planejamento', emoji: '🧭', cat: 'detectado', sistema: 'hera-estrategia',
       desc: 'Monta o plano de marketing de cada cliente: posicionamento, público, canais, metas e orçamento.',
       why: 'Sem plano, cada área puxa para um lado. Ela dá o norte para tráfego, conteúdo e design.',
       look: { skin: '#f0c29b', hair: '#140f0c', style: 'longo', shirt: '#6C3BFF', pants: '#1a1338', glasses: 'retangular', beard: null }
     },
     {
-      key: 'trafego', name: 'Léo', role: 'Gestor de Tráfego Pago', emoji: '🎯', cat: 'sugerido',
+      key: 'trafego', name: 'Léo', role: 'Gestor de Tráfego Pago', emoji: '🎯', cat: 'detectado', sistema: 'hera-trafego',
       desc: 'Cria e otimiza campanhas no Meta Ads, Google Ads e TikTok Ads de olho em CAC e ROAS.',
       why: 'É quem transforma verba em cliente. Ajuste diário de lance e público faz a diferença no fim do mês.',
       look: { skin: '#c9854f', hair: '#241a13', style: 'fade', shirt: '#12D6C5', pants: '#1a1338', glasses: null, beard: 'cavanhaque' }
     },
     {
-      key: 'social', name: 'Nico', role: 'Social Media', emoji: '📱', cat: 'sugerido',
+      key: 'social', name: 'Nico', role: 'Social Media', emoji: '📱', cat: 'detectado', sistema: 'hera-social',
       desc: 'Planeja o calendário, roteiriza reels, escreve legendas e responde a comunidade.',
       why: 'Constância nas redes custa tempo. Com pauta e rascunho prontos, o cliente só aprova.',
       look: { skin: '#e0a878', hair: '#5a3a22', style: 'longo', shirt: '#FF4F8B', pants: '#26204a', glasses: null, beard: null }
     },
     {
-      key: 'copy', name: 'Duda', role: 'Copywriter', emoji: '✍️', cat: 'sugerido',
+      key: 'copy', name: 'Duda', role: 'Copywriter', emoji: '✍️', cat: 'detectado', sistema: 'hera-copy',
       desc: 'Escreve anúncios, páginas de venda e e-mails, e testa variações de gancho e oferta.',
       why: 'Texto é o que converte. Ter variações prontas acelera qualquer teste A/B.',
       look: { skin: '#f7d7bd', hair: '#8b5a2b', style: 'curto', shirt: '#FFB547', pants: '#1a1338', glasses: 'retangular', beard: null }
     },
     {
-      key: 'design', name: 'Íris', role: 'Designer & Direção de Arte', emoji: '🎨', cat: 'sugerido',
+      key: 'design', name: 'Íris', role: 'Designer & Direção de Arte', emoji: '🎨', cat: 'detectado', sistema: 'hera-design',
       desc: 'Cria criativos, carrosséis, identidades visuais e mantém cada cliente fiel à própria marca.',
       why: 'Criativo bom é metade do resultado do anúncio. E é o que faz a agência parecer premium.',
       look: { skin: '#7a4a2c', hair: '#140f0c', style: 'cacheado', shirt: '#8A5CFF', pants: '#26204a', glasses: 'redondo', beard: null }
     },
     {
-      key: 'video', name: 'Theo', role: 'Editor de Vídeo', emoji: '🎬', cat: 'sugerido',
+      key: 'video', name: 'Theo', role: 'Editor de Vídeo', emoji: '🎬', cat: 'detectado', sistema: 'hera-video',
       desc: 'Edita reels, anúncios em vídeo e cortes de lives com legenda, ritmo e gancho nos 3 primeiros segundos.',
       why: 'Vídeo curto é o formato que mais entrega hoje. Edição rápida mantém o calendário em dia.',
       look: { skin: '#f0c29b', hair: '#2a1d14', style: 'fade', shirt: '#1f2a44', pants: '#1a1338', glasses: null, beard: 'cheia' }
     },
     {
-      key: 'seo', name: 'Gabi', role: 'SEO & Blog', emoji: '🔎', cat: 'sugerido',
+      key: 'seo', name: 'Gabi', role: 'SEO & Blog', emoji: '🔎', cat: 'detectado', sistema: 'hera-seo',
       desc: 'Pesquisa palavras-chave, escreve artigos e cuida do site para aparecer no Google sem pagar clique.',
       why: 'Tráfego orgânico é o cliente que chega de graça todo mês. Demora, mas fica.',
       look: { skin: '#e0a878', hair: '#8b5a2b', style: 'coque', shirt: '#22c55e', pants: '#26204a', glasses: null, beard: null }
     },
     {
-      key: 'dados', name: 'Cami', role: 'Dados & BI', emoji: '📊', cat: 'sugerido',
+      key: 'dados', name: 'Cami', role: 'Dados & BI', emoji: '📊', cat: 'detectado', sistema: 'hera-dados',
       desc: 'Junta os números de anúncios, site e CRM num painel e explica o que mudou na semana.',
       why: 'Com várias frentes rodando, alguém precisa olhar o todo e dizer o que está dando resultado.',
       look: { skin: '#f7d7bd', hair: '#140f0c', style: 'longo', shirt: '#5B2EE8', pants: '#1a1338', glasses: 'redondo', beard: null }
     },
     {
-      key: 'atendimento', name: 'Bia', role: 'Atendimento & Sucesso do Cliente', emoji: '🤝', cat: 'sugerido',
+      key: 'atendimento', name: 'Bia', role: 'Atendimento & Sucesso do Cliente', emoji: '🤝', cat: 'detectado', sistema: 'hera-atendimento',
       desc: 'Fala com os clientes, organiza aprovações, prazos e reuniões, e manda o relatório do mês.',
       why: 'Cliente bem atendido renova contrato. Ela é a ponte entre a agência e quem paga as contas.',
       look: { skin: '#7a4a2c', hair: '#140f0c', style: 'coque', shirt: '#14b8a6', pants: '#1a1338', glasses: null, beard: null }
     },
     {
-      key: 'comercial', name: 'Rafa', role: 'Comercial & Prospecção', emoji: '💼', cat: 'sugerido',
+      key: 'comercial', name: 'Rafa', role: 'Comercial & Prospecção', emoji: '💼', cat: 'detectado', sistema: 'hera-comercial',
       desc: 'Encontra empresas com potencial, faz o primeiro contato e monta as propostas da Hera.',
       why: 'É o topo do funil da própria agência: sem cliente novo entrando, a equipe para de crescer.',
       look: { skin: '#c9854f', hair: '#1a120d', style: 'curto', shirt: '#334155', pants: '#1a1338', glasses: 'retangular', beard: 'cheia' }

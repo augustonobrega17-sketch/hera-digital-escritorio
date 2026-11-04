@@ -22,6 +22,34 @@ relógio: manhã, tarde, pôr do sol e noite), laje com o andar de baixo, porta 
 elevador com indicador de andar, extintor no corredor. Quem chega ao trabalho
 sai do elevador na recepção e vai andando até a própria mesa.
 
+**Os sistemas da equipe**
+
+Cada funcionário da Hera tem um sistema de marketing próprio, que abre no
+monitor dele (clique no computador da mesa). Eles ficam em `sistemas/`, sobem
+sozinhos junto com o escritório e compartilham os mesmos dados (clientes,
+campanhas, posts…), então um sistema enxerga o que o outro registrou.
+
+| Funcionário | Sistema | Porta | O que faz |
+| --- | --- | --- | --- |
+| Lia | Estratégia & Planejamento | 4411 | planos por cliente, SWOT, funil reverso, distribuição de verba |
+| Léo | Tráfego Pago | 4412 | campanhas com CTR, CPC, CPL, CPA e ROAS, alertas do dia, calculadoras |
+| Nico | Social Media | 4413 | produção em kanban, calendário editorial, métricas, banco de ganchos |
+| Duda | Copywriter | 4414 | gerador AIDA/PAS/4U, banco de copies A/B, contador de caracteres |
+| Íris | Design | 4415 | fila de criativos, paletas dos clientes, guia de formatos, checklist |
+| Theo | Vídeo | 4416 | fila de edição, estrutura de vídeo curto cronometrada, checklist |
+| Gabi | SEO & Blog | 4417 | palavras-chave priorizadas, pauta, simulador do Google, checklist on-page |
+| Cami | Dados & BI | 4418 | painel da agência inteira e insights automáticos (lê todos os outros) |
+| Bia | Atendimento | 4419 | carteira de clientes, aprovações, agenda e relatório mensal automático |
+| Rafa | Comercial | 4420 | funil de vendas (fechou, vira cliente sozinho) e gerador de proposta |
+
+- Os dados ficam em `sistemas/_dados/` (fora do git). Na primeira vez eles
+  nascem com clientes e números **fictícios** de exemplo; cada sistema tem os
+  botões "Começar do zero" e "Restaurar exemplo".
+- A base comum (servidor, visual da marca e componentes) está em
+  `sistemas/_base/`. A tabela de preços da proposta fica no topo de
+  `sistemas/comercial/app.js`.
+- Os sistemas só aceitam conexões desta máquina.
+
 **A marca**
 
 O manual de identidade visual fica em **http://localhost:4321/marca/** (botão
@@ -153,6 +181,7 @@ index.html         a tela
 js/                motor isométrico, salas, móveis, bonecos, painéis
 css/style.css      tema (cores da Hera Digital)
 marca/             logo, símbolo e manual de identidade visual
+sistemas/          os sistemas de marketing de cada funcionário (base em _base/)
 exemplo-agente/    o menor sistema que o escritório sabe operar
 data/              seus dados (fora do git, menos os exemplos)
 ```

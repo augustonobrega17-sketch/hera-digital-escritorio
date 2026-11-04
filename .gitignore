@@ -9,3 +9,6 @@ data/reunioes/
 
 # configuração local do Claude Code
 .claude/
+
+# dados dos sistemas da Hera (clientes, campanhas, posts...)
+sistemas/_dados/

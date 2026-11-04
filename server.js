@@ -366,9 +366,15 @@ async function ligarDeFato(id) {
      que o log: para ver a saída de um sistema, rode o comando dele no
      terminal, que aí ela aparece normalmente. */
   const win = process.platform === 'win32';
-  const child = spawn(s.comando, s.args || [], {
+  /* Sistema que é "node ..." sobe direto pelo próprio node, sem cmd no meio.
+     Destacado (DETACHED_PROCESS), ele nasce sem console e portanto sem
+     janela. Pelo cmd, o node ganhava um console novo e uma janela preta
+     aberta por sistema — dez janelas com os sistemas da Hera. O shell fica
+     só para npm, que no Windows é um .cmd e precisa dele. */
+  const ehNode = /^node(\.exe)?$/i.test(String(s.comando));
+  const child = spawn(ehNode ? process.execPath : s.comando, s.args || [], {
     cwd: s.pasta,
-    shell: win,
+    shell: win && !ehNode,
     env: Object.assign({}, process.env, s.env || {}),
     detached: true,
     windowsHide: true,
@@ -924,6 +930,23 @@ async function vigiar() {
   vigiando = false;
 }
 setInterval(vigiar, 60000);
+
+/* Sistema com "autoLigar": true no registro (os da Hera Digital) entra na lista
+   de desejados uma única vez, na primeira vez que o escritório o vê. Assim ele
+   já sobe sozinho; se depois você mandar DESLIGAR, a ordem é respeitada, porque
+   data/autoligados.json lembra que esse já foi ligado automaticamente. */
+const AUTOLIGADOS = path.join(ROOT, 'data', 'autoligados.json');
+function autoLigar() {
+  let feitos = [];
+  try { feitos = JSON.parse(fs.readFileSync(AUTOLIGADOS, 'utf8')); } catch (e) { /* primeira vez */ }
+  const novos = Object.entries(lerRegistro()).filter(([id, s]) => s.autoLigar && s.tipo === 'local' && !feitos.includes(id)).map(([id]) => id);
+  if (!novos.length) return;
+  for (const id of novos) quero(id, true);
+  try { fs.writeFileSync(AUTOLIGADOS, JSON.stringify([...feitos, ...novos], null, 2) + '\n'); } catch (e) {}
+  console.log('  ligando pela primeira vez: ' + novos.join(', '));
+  vigiar();
+}
+setTimeout(autoLigar, 2000);
 
 /* ===========================================================
    AGENDA — ações com data marcada
