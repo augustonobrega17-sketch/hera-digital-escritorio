@@ -6,3 +6,6 @@ data/*.json
 !data/config.exemplo.json
 data/logs/
 data/reunioes/
+
+# configuração local do Claude Code
+.claude/

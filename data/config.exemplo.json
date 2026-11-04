@@ -1,10 +1,10 @@
 {
   "_leia": "Copie este arquivo para data/config.json e ajuste. O config.json fica fora do git. Campo que faltar usa o padrão.",
 
-  "nome": "Escritório de Agentes",
-  "subtitulo": "painel dos seus agentes de IA",
-  "dono": "Você",
-  "empresa": "",
+  "nome": "Hera Digital",
+  "subtitulo": "agência de marketing · 12º andar",
+  "dono": "Augusto",
+  "empresa": "Hera Digital, agência de marketing digital: estratégia, branding, tráfego pago, conteúdo e dados, com uma equipe de agentes de IA.",
   "porta": 4321,
 
   "reuniao": {
@@ -15,12 +15,12 @@
     "minuto": 0,
     "duracaoMin": 30,
     "modelo": "sonnet",
-    "foco": "o que cada agente pode melhorar no próprio sistema esta semana",
+    "foco": "o que cada agente pode melhorar nas campanhas e nos clientes esta semana",
     "meta": {
-      "descricao": "",
-      "alvo": 0,
+      "descricao": "Novos clientes no trimestre",
+      "alvo": 10,
       "feito": 0,
-      "unidade": "vendas",
+      "unidade": "clientes",
       "ate": ""
     }
   }

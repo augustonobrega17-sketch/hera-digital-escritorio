@@ -23,8 +23,9 @@ const ROOT = __dirname;
    padrão abaixo; o modelo comentado está em data/config.exemplo.json. */
 const CONFIG_ARQ = path.join(ROOT, 'data', 'config.json');
 const CONFIG_PADRAO = {
-  nome: 'Escritório de Agentes', subtitulo: 'painel dos seus agentes de IA',
-  dono: 'Você', empresa: '', porta: 4321,
+  nome: 'Hera Digital', subtitulo: 'agência de marketing · 12º andar',
+  dono: 'Augusto', empresa: 'Hera Digital, agência de marketing digital: estratégia, branding, tráfego pago, conteúdo e dados, com uma equipe de agentes de IA.',
+  porta: 4321,
   reuniao: { automatica: false, dias: [1, 5], hora: 11, minuto: 0, duracaoMin: 30, modelo: 'sonnet',
              foco: '', meta: { descricao: '', alvo: 0, feito: 0, unidade: 'resultados', ate: '' } }
 };
@@ -834,8 +835,9 @@ const servidor = http.createServer(async (req, res) => {
   if (rota.startsWith('/api/')) return json(res, 404, { ok: false, motivo: 'rota não existe' });
 
   /* ---- estáticos ---- */
-  const rel = rota === '/' ? '/index.html' : rota;
-  if (!/^\/(index\.html|favicon\.svg|css\/|js\/)/.test(rel)) {
+  let rel = rota === '/' ? '/index.html' : rota;
+  if (rel === '/marca' || rel === '/marca/') rel = '/marca/index.html';
+  if (!/^\/(index\.html|favicon\.svg|css\/|js\/|marca\/)/.test(rel)) {
     res.writeHead(404, { 'Content-Type': 'text/plain' }).end('404'); return;
   }
   const arquivo = path.join(ROOT, path.normalize(rel).replace(/^(\.\.[/\\])+/, ''));

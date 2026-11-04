@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 96" role="img" aria-label="Hera Digital">
+  <defs>
+    <linearGradient id="hl-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8A5CFF"/>
+      <stop offset=".55" stop-color="#5B2EE8"/>
+      <stop offset="1" stop-color="#12D6C5"/>
+    </linearGradient>
+    <linearGradient id="hl-ouro" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFD983"/>
+      <stop offset="1" stop-color="#FF9F2E"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="88" height="88" rx="28" fill="url(#hl-bg)"/>
+  <rect x="18" y="21" width="12" height="54" rx="6" fill="#F5F2FF"/>
+  <rect x="66" y="21" width="12" height="54" rx="6" fill="#F5F2FF"/>
+  <rect x="28" y="49" width="40" height="7" rx="3.5" fill="#F5F2FF"/>
+  <path d="M48 25.5C56 34 60.5 41.5 60.5 50.5a12.5 12.5 0 0 1-25 0C35.5 41.5 40 34 48 25.5Z" fill="url(#hl-ouro)" stroke="#0F0A24" stroke-width="3"/>
+  <circle cx="48" cy="51" r="6.4" fill="#12D6C5"/>
+  <circle cx="48" cy="51" r="2.9" fill="#0F0A24"/>
+  <circle cx="50" cy="48.6" r="1.1" fill="#F5F2FF"/>
+  <text x="114" y="62" font-family="Sora, 'Segoe UI', Arial, sans-serif" font-weight="800" font-size="54" letter-spacing="-2" fill="#F5F2FF">hera<tspan fill="#FFB547">.</tspan></text>
+    <text x="116" y="84" font-family="Sora, 'Segoe UI', Arial, sans-serif" font-weight="600" font-size="13" letter-spacing="7.6" fill="#12D6C5">DIGITAL</text>
+</svg>

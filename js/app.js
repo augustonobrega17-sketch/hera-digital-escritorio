@@ -58,7 +58,7 @@ const screenToWorld = (sx, sy) => ({
 /* ===========================================================
    ATOR — o boneco que caminha
    =========================================================== */
-const SPEED = 2.5;                 // tiles por segundo
+const SPEED = 3.2;                 // tiles por segundo (o andar da Hera é grande)
 const reserved = new Map();        // slotId -> actorId
 
 class Actor {
@@ -195,7 +195,8 @@ class Actor {
   }
 
   wander() {
-    const room = this.a.status === 'descanso' ? WORLD.ROOMS.lounge
+    const room = this.a.status === 'descanso'
+                 ? (Math.random() < .5 ? WORLD.ROOMS.lounge : WORLD.ROOMS.cozinha)
                : this.a.status === 'reuniao'  ? WORLD.ROOMS.reuniao
                : WORLD.ROOMS.servico;
     for (let i = 0; i < 14; i++) {
@@ -259,7 +260,7 @@ class Actor {
     if (this.moving)           { this.act = 'indo para ' + (this.slot ? (this.slot.label || 'a estação') : 'algum lugar'); return; }
     if (st === 'trabalhando')  { this.act = this.slot ? ('produzindo na ' + this.slot.label) : 'procurando mesa livre'; return; }
     if (st === 'reuniao')      { this.act = 'em reunião'; return; }
-    if (st === 'descanso')     { this.act = this.slot ? this.slot.act : 'circulando no lounge'; return; }
+    if (st === 'descanso')     { this.act = this.slot ? this.slot.act : 'dando uma volta na pausa'; return; }
     this.act = '';
   }
 
@@ -436,7 +437,7 @@ function frame(now) {
   // fundo
   if (!bgCache || bgCache.w !== cw || bgCache.h !== ch) {
     const g = ctx.createRadialGradient(cw / 2, ch * .42, 40, cw / 2, ch * .42, Math.max(cw, ch) * .8);
-    g.addColorStop(0, '#141a2e'); g.addColorStop(.6, '#090b13'); g.addColorStop(1, '#05060a');
+    g.addColorStop(0, '#2a1f5c'); g.addColorStop(.55, '#150f33'); g.addColorStop(1, '#0a0718');
     bgCache = { g, w: cw, h: ch };
   }
   ctx.fillStyle = bgCache.g; ctx.fillRect(0, 0, cw, ch);
@@ -667,12 +668,14 @@ function renderHire() {
 function renderRooms() {
   const box = $('#rooms-list');
   box.innerHTML = '';
-  const order = ['diretoria', 'servico', 'lounge', 'reuniao', 'corredor'];
+  const order = ['diretoria', 'servico', 'recepcao', 'lounge', 'cozinha', 'reuniao', 'corredor'];
   for (const id of order) {
     const r = WORLD.ROOMS[id];
     const inside = Array.from(actors.values()).filter(ac =>
       !ac.hidden && WORLD.roomAt(Math.round(ac.x), Math.round(ac.y)) === id);
-    const cap = id === 'servico' ? 18 : id === 'diretoria' ? 2 : id === 'reuniao' ? 8 : id === 'lounge' ? FURN.restSlots.length : 0;
+    const cap = id === 'reuniao' ? FURN.meetSlots.length
+              : FURN.workSlots.filter(s => s.room === id).length +
+                FURN.restSlots.filter(s => s.room === id).length;
     const pct = cap ? Math.min(100, inside.length / cap * 100) : 0;
     const el = document.createElement('div');
     el.className = 'roomcard';
@@ -682,7 +685,7 @@ function renderRooms() {
       <div class="rmeta" style="color:${r.accent}">${inside.length} pessoa(s) agora${cap ? ` · ${cap} lugares` : ''}</div>
       ${cap ? `<div class="bar"><i style="width:${pct}%;background:${r.accent}"></i></div>` : ''}`;
     el.addEventListener('click', () => {
-      if (id === 'corredor') focusTile(24, 20, 0.7);
+      if (id === 'corredor') focusTile(32, 20, 0.7);
       else focusTile((r.x1 + r.x2) / 2, (r.y1 + r.y2) / 2, 0.7);
     });
     box.appendChild(el);
@@ -694,7 +697,7 @@ function renderStats() {
   $('#st-idle').textContent = ROSTER.count('descanso');
   $('#st-off').textContent  = ROSTER.count('offline');
   const leg = $('#roomlegend');
-  leg.innerHTML = ['diretoria', 'servico', 'lounge', 'reuniao'].map(id => {
+  leg.innerHTML = ['diretoria', 'servico', 'recepcao', 'lounge', 'cozinha', 'reuniao'].map(id => {
     const r = WORLD.ROOMS[id];
     const n = Array.from(actors.values()).filter(ac =>
       !ac.hidden && WORLD.roomAt(Math.round(ac.x), Math.round(ac.y)) === id).length;
@@ -1520,7 +1523,7 @@ document.addEventListener('keydown', e => {
 /* nome e subtítulo do topo vêm de data/config.json */
 (function marca() {
   const E = window.ESCRITORIO || {};
-  if (E.nome) { document.title = E.nome; $('#brand-nome').textContent = E.nome.toUpperCase(); }
+  if (E.nome) { document.title = E.nome + ' · Escritório'; $('#brand-nome').textContent = E.nome.toLowerCase(); }
   if (E.subtitulo !== undefined) $('#brand-sub').textContent = E.subtitulo;
 })();
 SISTEMAS.atualizar();

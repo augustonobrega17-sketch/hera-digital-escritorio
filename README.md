@@ -1,13 +1,36 @@
-# Escritório de Agentes
+# Hera Digital · Escritório de Agentes
 
-Um escritório isométrico no navegador, estilo Habbo, para acompanhar e operar
-os seus agentes de IA. Cada agente é um boneco com mesa e computador próprios;
+O escritório da **Hera Digital**, agência de marketing do Augusto: um andar
+isométrico em pixel, no 12º andar de um prédio comercial, onde a equipe de
+agentes de IA trabalha. Cada agente é um boneco com mesa e computador próprios;
 clicar no computador dele abre o **sistema daquele agente** ali dentro, com
 botões para ligar, desligar, ver o log e conversar com ele pelo Claude Code.
 
-- Diretoria, sala de serviço com 18 estações, lounge, sala de reunião e recepção.
-- Os bonecos trabalham na própria mesa, descansam no lounge no horário que você
-  definir e se juntam na sala de reunião quando há reunião.
+**O andar**
+
+| Sala | O que tem |
+| --- | --- |
+| **Sala do chefe** | piso de madeira, mesa do Augusto e do sócio, quadro de ideias, agenda, janelas para a cidade |
+| **Sala dos funcionários** | 12 estações para estratégia, tráfego, social, copy, design, dados |
+| **Recepção** | dois elevadores, parede de logo, balcão com recepcionista, sala de espera e mosaico de pavão no piso |
+| **Sala de jogos** | fliperamas, sinuca, pebolim, pingue-pongue, TV com sofá e pufes |
+| **Cozinha** | bancada com cafeteira, pia, cooktop e micro-ondas, geladeira, bebedouro, ilha com banquetas, mesa de almoço e bistrô |
+| **Sala de reunião** | mesa de oito lugares e painel de LED |
+
+O prédio é "de verdade": janelas com a cidade lá fora (o céu muda com o
+relógio: manhã, tarde, pôr do sol e noite), laje com o andar de baixo, porta de
+elevador com indicador de andar, extintor no corredor. Quem chega ao trabalho
+sai do elevador na recepção e vai andando até a própria mesa.
+
+**A marca**
+
+O manual de identidade visual fica em **http://localhost:4321/marca/** (botão
+**◉ Marca** no topo). Logo, símbolo e versões estão em `marca/`:
+`hera-simbolo.svg`, `hera-logo.svg` (fundo escuro) e `hera-logo-claro.svg`.
+
+- Os bonecos trabalham na própria mesa, descansam na sala de jogos, na cozinha
+  ou na recepção no horário que você definir e se juntam na sala de reunião
+  quando há reunião.
 - O escritório sobe os sistemas locais, vigia quem caiu e religa sozinho.
 - Nenhuma dependência: só Node.js.
 
@@ -21,7 +44,9 @@ cd escritorio-de-agentes
 npm start
 ```
 
-Abra **http://localhost:4321**. Vem um agente de exemplo (pasta
+Abra **http://localhost:4321**. A Hera já abre com a equipe principal
+contratada (estratégia, tráfego, social, copy, design, dados e atendimento).
+Vem também um agente de exemplo (pasta
 `exemplo-agente`): clique no computador dele e em **Ligar** para ver o fluxo
 completo.
 
@@ -126,7 +151,8 @@ reuniao.js         reunião dos agentes (Claude Code em cada pasta)
 avisos.js          ntfy e CallMeBot
 index.html         a tela
 js/                motor isométrico, salas, móveis, bonecos, painéis
-css/style.css      tema
+css/style.css      tema (cores da Hera Digital)
+marca/             logo, símbolo e manual de identidade visual
 exemplo-agente/    o menor sistema que o escritório sabe operar
 data/              seus dados (fora do git, menos os exemplos)
 ```
