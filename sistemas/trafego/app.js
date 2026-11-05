@@ -139,3 +139,10 @@ H.app({
     } }
   ]
 });
+
+// atalho para o painel ao vivo da Brisanet 5G (Meta Ads), página própria em /brisanet
+{
+  const topo = document.querySelector('.topo'), marca = topo && topo.querySelector('.marca');
+  if (topo) topo.insertBefore(el('a', { class: 'btn mini pri', href: '/brisanet', style: 'margin-left:auto;text-decoration:none' }, '📡 Brisanet 5G ao vivo'), marca);
+  if (marca) marca.style.marginLeft = '0';
+}

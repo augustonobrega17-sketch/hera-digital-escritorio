@@ -12,3 +12,6 @@ data/reunioes/
 
 # dados dos sistemas da Hera (clientes, campanhas, posts...)
 sistemas/_dados/
+
+# token da Meta (Tráfego ao vivo) e outros segredos locais
+.env.local

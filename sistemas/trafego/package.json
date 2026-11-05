@@ -1,0 +1,11 @@
+{
+  "name": "hera-trafego",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistema de Tráfego Pago da Hera Digital, com Meta Ads ao vivo da conta 5G",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "start": "node server.js"
+  },
+  "engines": { "node": ">=18" }
+}

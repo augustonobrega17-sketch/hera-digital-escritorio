@@ -89,6 +89,9 @@ module.exports = function iniciar(cfg) {
     if (rota === '/api/status')
       return json(res, 200, { ok: true, sistema: cfg.id, nome: cfg.nome, noArDesde: new Date(inicio).toISOString() });
 
+    // rotas próprias do sistema (ex.: Meta Ads ao vivo no Tráfego)
+    if (cfg.api && cfg.api(req, res, rota, json)) return;
+
     const m = rota.match(/^\/api\/col\/([^/]+)$/);
     if (m) {
       const nome = m[1];

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brisanet 5G · Meta Ads · Hera Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/_base/hera.css">
+<style>
+  :root{
+    --serie:#12D6C5; --serie-2:#8A5CFF;
+    --bom:#23e08a; --ruim:#FF4F8B; --alerta:#FFB547; --serio:#FF8A3D;
+    --grade:rgba(245,242,255,.07); --eixo:rgba(245,242,255,.18);
+  }
+  main{max-width:1440px}
+  .topo .quem b{font-size:17px}
+  .estado{margin-left:auto;display:flex;align-items:center;gap:12px;font-size:12.5px;color:var(--nevoa);flex-wrap:wrap;justify-content:flex-end}
+  .estado .pulso{width:8px;height:8px;border-radius:50%;background:var(--bom);box-shadow:0 0 0 0 rgba(35,224,138,.6);animation:pulso 2s infinite;flex:none}
+  .estado .pulso.girando{background:var(--alerta);animation:pulso .8s infinite}
+  .estado .pulso.erro{background:var(--ruim);animation:none}
+  @keyframes pulso{70%{box-shadow:0 0 0 7px rgba(35,224,138,0)}100%{box-shadow:0 0 0 0 rgba(35,224,138,0)}}
+
+  /* período */
+  .periodo{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+  .seg{display:inline-flex;background:var(--noite-2);border:1px solid var(--linha);border-radius:12px;padding:3px;gap:2px}
+  .seg button{border:0;background:none;padding:7px 14px;border-radius:9px;cursor:pointer;color:var(--nevoa);font:700 13px var(--f-d);white-space:nowrap}
+  .seg button:hover{color:var(--marmore)}
+  .seg button.on{background:var(--noite-4);color:var(--marmore)}
+  .seg.mini button{padding:5px 10px;font-size:12px}
+  .periodo .faixa{color:var(--nevoa);font-size:13px}
+  .periodo .faixa b{color:var(--marmore)}
+  .periodo .ativas{margin-left:auto;font-size:13px;color:var(--nevoa)}
+  .periodo .ativas b{color:var(--marmore)}
+
+  .alerta-erro{border:1px solid rgba(255,79,139,.4);background:rgba(255,79,139,.08);border-radius:12px;padding:10px 14px;margin-bottom:16px;font-size:13px}
+
+  /* KPIs */
+  main > .kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
+  @media (min-width:1300px){main > .kpis{grid-template-columns:repeat(8,minmax(0,1fr))}}
+  @media (max-width:640px){main > .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .kpi b{font-size:22px}
+  .kpi .rodape{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;margin-top:2px;min-height:18px}
+  .dl{font:700 12px var(--f-d);white-space:nowrap}
+  .dl.bom{color:var(--bom)} .dl.ruim{color:var(--ruim)} .dl.neutro{color:var(--nevoa)}
+  .dl small{font:500 11px var(--f-t);color:var(--nevoa)}
+
+  /* blocos */
+  .linha2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:14px;margin-bottom:14px}
+  .linha-graf{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px}
+  @media (max-width:1050px){.linha2,.linha-graf{grid-template-columns:1fr}}
+  .card{margin-bottom:14px}
+  .linha2 .card,.g2 .card{margin-bottom:0}
+  .g2{margin-bottom:14px}
+  .card-cab{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+  .card-cab h3{margin:0}
+  .card-cab .dica{margin-left:auto}
+  h4{font:700 12px var(--f-d);letter-spacing:1px;text-transform:uppercase;color:var(--nevoa);margin:0 0 6px}
+
+  /* tabelas compactas */
+  .tab-res{min-width:0}
+  .tab-res th,.tab-res td{padding:9px 10px}
+  .tab-res td small{display:block;color:var(--nevoa);font-size:11.5px}
+  .card .tabwrap{border:0;background:none;border-radius:0}
+
+  /* leitura */
+  .leitura{display:grid;gap:2px}
+  .nota{display:grid;grid-template-columns:22px 1fr;gap:8px;padding:9px 0;border-bottom:1px solid var(--linha)}
+  .nota:last-child{border-bottom:0}
+  .nota .ic{font:800 14px var(--f-d);text-align:center;line-height:20px}
+  .nota b{display:block;font:700 13.5px var(--f-d)}
+  .nota p{margin:2px 0 0;color:var(--nevoa);font-size:13px}
+  .nv-critico .ic{color:var(--ruim)} .nv-atencao .ic{color:var(--alerta)} .nv-oportunidade .ic{color:var(--bom)}
+  .nv-info .ic{color:var(--nevoa)} .nv-ok .ic{color:var(--serie)}
+
+  /* gráficos */
+  .graf{position:relative;width:100%;min-height:200px}
+  .graf svg{display:block;width:100%;overflow:visible}
+  .graf text{fill:var(--nevoa);font:500 11px var(--f-t)}
+  .graf .grade line{stroke:var(--grade)}
+  .graf .base{stroke:var(--eixo)}
+  .graf .linha{fill:none;stroke:var(--serie);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+  .graf .linha.v2{stroke:var(--serie-2)}
+  .graf .bar{fill:var(--serie)}
+  .graf .bar.v2{fill:var(--serie-2)}
+  .graf .bar.fraco{fill-opacity:.45}
+  .graf .alvo:hover + .bar,.graf .bar.hover{filter:brightness(1.25)}
+  .graf .faixa-sel{fill:rgba(245,242,255,.05)}
+  .graf .faixa-txt{fill:var(--nevoa);font-size:10.5px}
+  .graf .xh{stroke:var(--eixo);stroke-dasharray:3 3}
+  .graf .pt{fill:var(--serie);stroke:var(--noite-2);stroke-width:2}
+  .graf .pt.v2{fill:var(--serie-2)}
+  .graf .hz{fill:transparent;cursor:crosshair}
+  .graf .alvo{fill:transparent}
+  .graf .vazio-g{fill:var(--nevoa);font-size:13px}
+
+  #tip{position:fixed;z-index:80;pointer-events:none;background:var(--noite-3);border:1px solid var(--noite-4);border-radius:10px;
+    padding:8px 11px;font-size:12.5px;box-shadow:0 10px 30px rgba(0,0,0,.45);opacity:0;transition:opacity .08s;max-width:300px}
+  #tip.on{opacity:1}
+  #tip b{font:700 12.5px var(--f-d)}
+  #tip .l{display:flex;justify-content:space-between;gap:14px;color:var(--nevoa)}
+  #tip .l span:last-child{color:var(--marmore);font-variant-numeric:tabular-nums;font-weight:700}
+
+  /* distribuição */
+  .dist{display:grid;grid-template-columns:minmax(120px,190px) 1fr auto;gap:12px;align-items:center;padding:7px 0}
+  .dist .n b{display:block;font:700 13px var(--f-d)}
+  .dist .n small{color:var(--nevoa);font-size:11.5px}
+  .dist .trilho{height:12px;background:rgba(255,255,255,.05);border-radius:0 4px 4px 0}
+  .dist .trilho i{display:block;height:100%;border-radius:0 4px 4px 0;background:var(--serie);min-width:2px}
+  .dist .v{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;font-size:13px;min-width:92px}
+  .dist .v small{display:block;color:var(--nevoa);font-weight:500;font-size:11.5px}
+
+  /* campanhas */
+  .filtros-c{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+  .filtros-c select,.filtros-c input{width:auto;min-width:170px}
+  .filtros-c input{min-width:220px}
+  .contagem{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+  .tab-camp{min-width:1060px}
+  .tab-camp td{vertical-align:top}
+  .tab-camp tbody tr{cursor:pointer}
+  .tab-camp tbody tr:focus{outline:2px solid var(--violeta-2);outline-offset:-2px}
+  .tab-camp .nome{white-space:normal;overflow-wrap:anywhere;font-weight:700;font-size:13px;min-width:240px;max-width:380px;display:block}
+  .tab-camp small{display:block;color:var(--nevoa);font-size:11.5px;white-space:normal}
+  .tab-camp td.num small{white-space:nowrap}
+  th.ord::after{content:"";margin-left:4px}
+  th.ord.asc::after{content:"▲"} th.ord.desc::after{content:"▼"}
+
+  .chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px 3px 8px;border-radius:999px;font:700 11.5px var(--f-d);
+    border:1px solid var(--c);background:color-mix(in srgb,var(--c) 12%,transparent);white-space:nowrap;color:var(--marmore)}
+  .chip i{font-style:normal;color:var(--c);font-size:11px}
+  .chip.n{background:none;cursor:pointer}
+  .chip.n.on{background:color-mix(in srgb,var(--c) 22%,transparent)}
+  .chip em{font-style:normal;color:var(--nevoa);font-weight:600}
+
+  /* detalhe */
+  dialog#det{border:0;padding:0;margin:0 0 0 auto;height:100vh;max-height:100vh;width:min(760px,100vw);background:var(--noite-2);
+    color:var(--marmore);border-left:1px solid var(--linha);box-shadow:-30px 0 80px rgba(0,0,0,.5)}
+  dialog#det::backdrop{background:rgba(5,3,14,.6);backdrop-filter:blur(3px)}
+  .det{padding:20px 22px 40px}
+  .det-cab{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+  .det-cab h2{font-size:17px;overflow-wrap:anywhere;margin:6px 0 4px}
+  .det-cab .fechar{margin-left:auto;flex:none}
+  .ficha-c{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 16px;margin:12px 0 18px;font-size:13px}
+  .ficha-c span{display:block;color:var(--nevoa);font-size:11px;font:600 11px var(--f-d);letter-spacing:1px;text-transform:uppercase}
+  .det .kpis{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+  .det .kpi b{font-size:19px}
+  .det .dl{white-space:normal}
+  .det .card{background:var(--noite)}
+  @media (max-width:600px){.periodo .ativas{margin-left:0}.estado{margin-left:0}.topo{flex-wrap:wrap}.dist{grid-template-columns:1fr auto}.dist .trilho{grid-column:1/-1;order:3}}
+</style>
+</head><body>
+<header class="topo">
+  <svg viewBox="0 0 96 96" aria-hidden="true"><defs><linearGradient id="hs" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8A5CFF"/><stop offset=".55" stop-color="#5B2EE8"/><stop offset="1" stop-color="#12D6C5"/></linearGradient></defs><rect x="4" y="4" width="88" height="88" rx="28" fill="url(#hs)"/><rect x="18" y="21" width="12" height="54" rx="6" fill="#F5F2FF"/><rect x="66" y="21" width="12" height="54" rx="6" fill="#F5F2FF"/><rect x="28" y="49" width="40" height="7" rx="3.5" fill="#F5F2FF"/><path d="M48 25.5C56 34 60.5 41.5 60.5 50.5a12.5 12.5 0 0 1-25 0C35.5 41.5 40 34 48 25.5Z" fill="#FFB547" stroke="#0F0A24" stroke-width="3"/><circle cx="48" cy="51" r="6.4" fill="#12D6C5"/><circle cx="48" cy="51" r="2.9" fill="#0F0A24"/></svg>
+  <div class="quem"><b>Brisanet 5G · Meta Ads</b><span id="conta-nome">Painel ao vivo · Hera Digital</span></div>
+  <div class="estado" id="estado"></div>
+</header>
+<main id="app"><p class="vazio">Carregando dados da Meta…</p></main>
+<dialog id="det"></dialog>
+<div id="tip" role="tooltip"></div>
+<script src="/brisanet.js"></script>
+</body></html>
