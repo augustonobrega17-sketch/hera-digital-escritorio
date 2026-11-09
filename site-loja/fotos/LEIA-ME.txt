@@ -1,0 +1,84 @@
+FOTOS DO SITE — suba cada arquivo com EXATAMENTE este nome nesta pasta.
+Formato: .jpg (para a logo, .png com fundo transparente). Enquanto a foto
+não existir, o site mostra um quadro tracejado com o nome do arquivo.
+Dica: comprima as fotos em tinyjpg.com antes de subir (ideal < 300 KB cada).
+
+== LOGO (opcional) ==
+  logo.png                         altura ~120 px, fundo transparente
+
+== BANNERS DO TOPO (1920 x 900 px, horizontal) ==
+  banner-1.jpg                     PEÇA SOB MEDIDA
+  banner-2.jpg                     ENTRE PARA O PELOTÃO
+  banner-3.jpg                     LANÇAMENTOS DA SEMANA
+
+== COLEÇÕES (800 x 1000 px, vertical) ==
+  colecao-cabecas.jpg              Cabeças
+  colecao-coletes.jpg              Coletes & Blindagem
+  colecao-headgear.jpg             Capacetes & Máscaras
+  colecao-armas.jpg                Armas & Munição
+  colecao-mochilas.jpg             Mochilas & Bolsas
+  colecao-kits.jpg                 Kits Completos
+
+== SEÇÕES ==
+  sobre.jpg                        Sobre nós (1200 x 900 px)
+  assinatura.jpg                   Fundo da assinatura (1920 x 900 px)
+
+== PRODUTOS (pasta produtos/, 1000 x 1000 px, quadrada) ==
+   Fotos extras da galeria (opcional): mesmo nome + -2, -3, -4
+   ex.: produtos/cabeca-01-2.jpg, produtos/cabeca-01-3.jpg
+
+  -- Cabeças --
+  produtos/cabeca-01.jpg           Operador com Capacete Balístico (NVG abaixado)
+  produtos/cabeca-02.jpg           Operador com Capacete Balístico (NVG levantado)
+  produtos/cabeca-03.jpg           Operador com Capacete Balístico
+  produtos/cabeca-04.jpg           Capacete com Balaclava II (NVG abaixado)
+  produtos/cabeca-05.jpg           Capacete com Balaclava II (NVG levantado)
+  produtos/cabeca-06.jpg           Capacete com Balaclava II
+  produtos/cabeca-07.jpg           Veterano de Barba Cerrada
+  produtos/cabeca-08.jpg           Recruta com Boina
+
+  -- Coletes & Blindagem --
+  produtos/colete-01.jpg           Placa Leve Recon
+  produtos/colete-02.jpg           Colete Pesado de Assalto
+  produtos/colete-03.jpg           Jaqueta de Campo de Coronel (Guerra Fria)
+  produtos/colete-04.jpg           Jaqueta Operador + Porta-Placas
+  produtos/colete-05.jpg           Colete Modular Gen 4
+  produtos/colete-06.jpg           Protetor de Coxa com Coldre Duplo
+  produtos/colete-07.jpg           Parka de Inverno (parte inferior)
+  produtos/colete-08.jpg           Protetor de Coxa
+
+  -- Capacetes & Máscaras --
+  produtos/headgear-01.jpg         Máscara Tática Palhaço
+  produtos/headgear-02.jpg         Máscara Tática Monstro
+  produtos/headgear-03.jpg         Shemagh Tático
+  produtos/headgear-04.jpg         Capacete Antibomba (EOD)
+  produtos/headgear-05.jpg         Colar de Proteção EOD
+  produtos/headgear-06.jpg         Capacete Bump com Headset
+  produtos/headgear-07.jpg         Elmo Cruzado
+  produtos/headgear-08.jpg         Lenço de Pescoço Selva
+
+  -- Armas & Munição --
+  produtos/arma-01.jpg             Faca Tática II
+  produtos/arma-02.jpg             Faca Tática I
+  produtos/arma-03.jpg             Martelo de Arrombamento
+  produtos/arma-04.jpg             Kukri
+  produtos/arma-05.jpg             Fuzil de Assalto Modular
+  produtos/arma-06.jpg             Pistola Compacta com Lanterna
+  produtos/arma-07.jpg             Escopeta de Brecha
+  produtos/arma-08.jpg             Fuzil de Precisão com Bipé
+
+  -- Mochilas & Bolsas --
+  produtos/mochila-01.jpg          Mochila Exoesqueleto
+  produtos/mochila-02.jpg          Mochila de Interferência (Jammer)
+  produtos/mochila-03.jpg          Alças Modulares
+  produtos/mochila-04.jpg          Mochila com Armação de Munição
+  produtos/mochila-05.jpg          Mochila de Assalto 24h
+  produtos/mochila-06.jpg          Bolsa de Hidratação
+  produtos/mochila-07.jpg          Rádio de Costas
+  produtos/mochila-08.jpg          Mochila Médica
+
+  -- Kits Completos --
+  produtos/kit-01.jpg              Kit Operador Urbano
+  produtos/kit-02.jpg              Kit Atirador de Elite Ghillie
+  produtos/kit-03.jpg              Kit Paraquedista 1944
+  produtos/kit-04.jpg              Kit Tropa de Choque
