@@ -46,9 +46,10 @@
   /* ---------- Logo ---------- */
   (function logo() {
     const el = $('#logo');
-    const partes = L.marca.nome.split(' ');
-    const texto = partes.length > 1
-      ? `${esc(partes.slice(0, -1).join(' '))} <b>${esc(partes.at(-1))}</b>`
+    // a última palavra (ou os números no fim, ex.: FORJA118) sai em dourado
+    const m = L.marca.nome.match(/^(.*?)(\s+\S+|\d+)$/);
+    const texto = m && m[1]
+      ? `${esc(m[1].trim())}${/^\s/.test(m[2]) ? ' ' : ''}<b>${esc(m[2].trim())}</b>`
       : esc(L.marca.nome);
     el.innerHTML = `<svg viewBox="0 0 32 32"><path d="M16 3 27 7.5v7.5c0 7-4.6 11.2-11 13-6.4-1.8-11-6-11-13V7.5z"/><path d="m11 16 3.5 3.5L21 13"/></svg><span class="logo-texto">${texto}</span>`;
     if (L.marca.logo) {

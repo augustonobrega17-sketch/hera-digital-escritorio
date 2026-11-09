@@ -8,7 +8,7 @@
    ============================================================= */
 window.LOJA = {
   marca: {
-    nome: 'ARSENAL 1/12',
+    nome: 'FORJA118',
     slogan: 'Equipamento tático em miniatura',
     logo: 'logo.png',               // fotos/logo.png (opcional; sem ela aparece o nome em texto)
     cidade: 'Feito no Brasil',
@@ -19,7 +19,7 @@ window.LOJA = {
   mostrarAvisosDeFoto: true,
 
   contato: {
-    whatsapp: '5500000000000',      // DDI + DDD + número, só dígitos
+    whatsapp: '5585997767151',      // DDI + DDD + número, só dígitos
     email: 'contato@suamarca.com.br',
     instagram: 'https://instagram.com/',
     youtube: 'https://youtube.com/',
@@ -83,14 +83,14 @@ window.LOJA = {
      selo  -> (opcional) 'Novo', 'Promo', 'Esgotado'...                      */
   produtos: [
     // Cabeças
-    { id: 'cabeca-01', cat: 'cabecas', nome: 'Operador com Capacete Balístico (NVG abaixado)', preco: 24.9, selo: 'Novo' },
-    { id: 'cabeca-02', cat: 'cabecas', nome: 'Operador com Capacete Balístico (NVG levantado)', preco: 24.9, selo: 'Novo' },
-    { id: 'cabeca-03', cat: 'cabecas', nome: 'Operador com Capacete Balístico', preco: 22.9 },
-    { id: 'cabeca-04', cat: 'cabecas', nome: 'Capacete com Balaclava II (NVG abaixado)', preco: 24.9 },
-    { id: 'cabeca-05', cat: 'cabecas', nome: 'Capacete com Balaclava II (NVG levantado)', preco: 24.9 },
-    { id: 'cabeca-06', cat: 'cabecas', nome: 'Capacete com Balaclava II', preco: 22.9 },
-    { id: 'cabeca-07', cat: 'cabecas', nome: 'Veterano de Barba Cerrada', preco: 22.9 },
-    { id: 'cabeca-08', cat: 'cabecas', nome: 'Recruta com Boina', preco: 19.9 },
+    { id: 'cabeca-01', cat: 'cabecas', nome: 'Operador com Capacete Balístico (NVG abaixado)', preco: 16, selo: 'Novo' },
+    { id: 'cabeca-02', cat: 'cabecas', nome: 'Operador com Capacete Balístico (NVG levantado)', preco: 16, selo: 'Novo' },
+    { id: 'cabeca-03', cat: 'cabecas', nome: 'Operador com Capacete Balístico', preco: 16 },
+    { id: 'cabeca-04', cat: 'cabecas', nome: 'Capacete com Balaclava II (NVG abaixado)', preco: 16 },
+    { id: 'cabeca-05', cat: 'cabecas', nome: 'Capacete com Balaclava II (NVG levantado)', preco: 16 },
+    { id: 'cabeca-06', cat: 'cabecas', nome: 'Capacete com Balaclava II', preco: 16 },
+    { id: 'cabeca-07', cat: 'cabecas', nome: 'Veterano de Barba Cerrada', preco: 16 },
+    { id: 'cabeca-08', cat: 'cabecas', nome: 'Recruta com Boina', preco: 16 },
 
     // Coletes & blindagem
     { id: 'colete-01', cat: 'coletes', nome: 'Placa Leve Recon', preco: 39.9 },
