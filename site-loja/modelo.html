@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Forja118 · Loja</title>
+  <meta name="description" content="Cabeças, coletes, armas e equipamentos em escala 1/12 para action figures. Arquivos STL e peças impressas em resina.">
+  <meta name="theme-color" content="#0d0d0d">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d0d0d'/%3E%3Cpath d='M32 10 52 18v14c0 12-8 19-20 22-12-3-20-10-20-22V18z' fill='none' stroke='%23c0a060' stroke-width='5'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+  <!-- Barra de avisos -->
+  <div class="avisos" id="avisos" aria-live="polite"></div>
+
+  <!-- Cabeçalho -->
+  <header class="topo" id="topo">
+    <div class="topo-in">
+      <button class="icone so-celular" id="abrirMenu" aria-label="Abrir menu">
+        <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <a href="#" class="logo" id="logo" aria-label="Página inicial"></a>
+      <nav class="menu" id="menu" aria-label="Menu principal"></nav>
+      <div class="acoes">
+        <button class="icone" id="abrirBusca" aria-label="Buscar">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </button>
+        <button class="icone carrinho-btn" id="abrirCarrinho" aria-label="Carrinho">
+          <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.2 12H6.2z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+          <span class="bolha" id="qtdCarrinho" hidden>0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <!-- Banners -->
+    <section class="hero" id="hero" aria-roledescription="carrossel" aria-label="Destaques"></section>
+
+    <!-- Coleções -->
+    <section class="secao" id="colecoes">
+      <div class="secao-cab">
+        <h2>Coleções</h2>
+        <div class="setas" data-alvo="trilhoColecoes">
+          <button aria-label="Anterior">‹</button><button aria-label="Próximo">›</button>
+        </div>
+      </div>
+      <div class="trilho" id="trilhoColecoes"></div>
+    </section>
+
+    <!-- Prateleiras de produtos (geradas pelo config) -->
+    <div id="prateleiras"></div>
+
+    <!-- Sobre -->
+    <section class="sobre" id="sobre"></section>
+
+    <!-- Kits -->
+    <section class="secao" id="kits"></section>
+
+    <!-- Assinatura -->
+    <section class="assinatura" id="assinatura"></section>
+
+    <!-- Perguntas frequentes -->
+    <section class="secao estreita" id="ajuda">
+      <div class="secao-cab"><h2>Perguntas frequentes</h2></div>
+      <div class="faq" id="faq"></div>
+    </section>
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="rodape" id="rodape"></footer>
+
+  <!-- Menu do celular -->
+  <div class="gaveta gaveta-esq" id="gavetaMenu" aria-hidden="true">
+    <div class="gaveta-cab">
+      <strong>Menu</strong>
+      <button class="icone" data-fechar aria-label="Fechar">✕</button>
+    </div>
+    <nav class="menu-celular" id="menuCelular"></nav>
+  </div>
+
+  <!-- Carrinho -->
+  <aside class="gaveta gaveta-dir" id="gavetaCarrinho" aria-hidden="true" aria-label="Carrinho">
+    <div class="gaveta-cab">
+      <strong>Seu carrinho</strong>
+      <button class="icone" data-fechar aria-label="Fechar">✕</button>
+    </div>
+    <div class="carrinho-itens" id="carrinhoItens"></div>
+    <div class="carrinho-rodape" id="carrinhoRodape"></div>
+  </aside>
+
+  <!-- Janela de produto -->
+  <div class="modal" id="modalProduto" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-caixa" id="modalConteudo"></div>
+  </div>
+
+  <!-- Catálogo / busca -->
+  <div class="catalogo" id="catalogo" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Catálogo">
+    <div class="catalogo-cab">
+      <div class="busca">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" id="campoBusca" placeholder="Buscar peças, cabeças, armas..." autocomplete="off">
+      </div>
+      <button class="icone" data-fechar aria-label="Fechar">✕</button>
+    </div>
+    <div class="chips" id="chips"></div>
+    <p class="catalogo-info" id="catalogoInfo"></p>
+    <div class="grade" id="gradeCatalogo"></div>
+  </div>
+
+  <div class="veu" id="veu"></div>
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/loja.js"></script>
+  <script src="js/editor.js"></script>
+</body>
+</html>
