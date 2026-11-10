@@ -550,3 +550,16 @@ main, .rodape, .topo, .avisos { transition: opacity .3s; }
 .ed-painel, .ed-corpo { overflow-x: hidden; }
 .ed-secao-corpo > *, .ed-item-corpo > * { min-width: 0; }
 .ed-item > summary span { flex: 1; min-width: 0; }
+/* botões de remover (−) do editor */
+.ed-menos {
+  flex: none; min-width: 30px; height: 30px; padding: 0 8px; border-radius: 4px;
+  border: 1px solid #3a3a3a; background: #1c1c1c; color: #bbb;
+  font: 700 18px/1 var(--fonte-texto); display: inline-grid; place-items: center; white-space: nowrap;
+}
+.ed-menos:hover { color: #fff; border-color: var(--perigo); background: var(--perigo); }
+.ed-menos.armado, .ed-remover.armado { background: var(--perigo); border-color: var(--perigo); color: #fff; font: 700 12px/1 var(--fonte-texto); }
+.ed-item > summary .ed-menos { margin-left: 4px; }
+.ed-x.ed-menos { width: auto; height: auto; min-height: 38px; }
+.ed-foto { position: relative; }
+.ed-foto-x { position: absolute; top: -6px; right: -6px; z-index: 5; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 12px; font-size: 16px; background: #111; }
+.ed-foto-x.armado { font-size: 11px; }

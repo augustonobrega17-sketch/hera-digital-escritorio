@@ -85,8 +85,8 @@
 
     const abrirPainel = () => { document.body.classList.add('editando'); desenharForm(); };
     const fecharPainel = () => {
-      if (sujo && !confirm('Há alterações não salvas. Fechar mesmo assim? (elas continuam na tela até recarregar)')) return;
       document.body.classList.remove('editando');
+      if (sujo) window.Loja.aviso('Atenção: há alterações não salvas');
     };
     botao.addEventListener('click', abrirPainel);
     painel.addEventListener('click', (e) => {
@@ -121,14 +121,11 @@
         const r = await assets.upload(blob, { type: blob.type || 'image/jpeg' });
         const antigo = fotos[caminho];
         fotos[caminho] = r.id;
-        await db.doc('loja/fotos').set({ lista: Object.entries(fotos).map(([c, id]) => ({ c, id })) });
+        await db.doc('loja/fotos').set(listaFotos());
         if (antigo && !Object.values(fotos).includes(antigo)) assets.delete(antigo).catch(() => {});
         aplicarFotos();
         if (caminho === 'logo.png' && !rascunho.marca.logo) rascunho.marca.logo = 'logo.png';
-        const produtoAberto = $('#modalProduto').classList.contains('aberto') && $('#modalConteudo').dataset.produto;
-        window.Loja.montar(rascunho);
-        if (produtoAberto) window.Loja.abrirProduto(produtoAberto);
-        desenharForm();
+        redesenhar();
         status(sujo ? 'Foto salva · textos com alterações não salvas' : 'Foto salva');
         window.Loja.aviso('Foto atualizada');
       } catch (err) {
@@ -136,6 +133,44 @@
         status(msg || 'Não foi possível enviar a foto. Tente de novo.', true);
       }
     });
+
+    function redesenhar() {
+      const produtoAberto = $('#modalProduto').classList.contains('aberto') && $('#modalConteudo').dataset.produto;
+      window.Loja.montar(rascunho);
+      if (produtoAberto && window.Loja && rascunho.produtos.some((p) => p.id === produtoAberto)) window.Loja.abrirProduto(produtoAberto);
+      desenharForm();
+    }
+    const listaFotos = () => ({ lista: Object.entries(fotos).map(([c, id]) => ({ c, id })) });
+    async function tirarFoto(caminho) {
+      const id = fotos[caminho];
+      if (!id) return;
+      delete fotos[caminho];
+      status('Removendo foto…');
+      try {
+        await db.doc('loja/fotos').set(listaFotos());
+        if (!Object.values(fotos).includes(id)) assets.delete(id).catch(() => {});
+        aplicarFotos();
+        redesenhar();
+        status(sujo ? 'Foto removida · textos com alterações não salvas' : 'Foto removida');
+        window.Loja.aviso('Foto removida');
+      } catch (err) {
+        fotos[caminho] = id;
+        status('Não foi possível remover a foto. Tente de novo.', true);
+      }
+    }
+    // botão de remover em dois toques (o 1º pede confirmação), sem janelas do navegador
+    function confirmou(btn, pergunta) {
+      if (btn.dataset.armado) return true;
+      btn.dataset.armado = '1';
+      btn.dataset.antes = btn.innerHTML;
+      btn.classList.add('armado');
+      btn.textContent = pergunta;
+      setTimeout(() => {
+        if (!btn.isConnected) return;
+        delete btn.dataset.armado; btn.classList.remove('armado'); btn.innerHTML = btn.dataset.antes;
+      }, 3500);
+      return false;
+    }
 
     /* ----- formulário ----- */
     const SECOES = [
@@ -146,15 +181,21 @@
         ['mostrarAvisosDeFoto', 'Mostrar o nome do arquivo nos quadros sem foto', 'bool'],
       ], fotos: [['logo.png', 'Logo (PNG transparente)']] },
       { titulo: 'Faixa de avisos do topo', lista: 'barraAvisos', simples: true, novo: () => 'Novo aviso' },
-      { titulo: 'Banners', lista: 'banners', fixo: true, rotulo: (b) => b.titulo,
+      { titulo: 'Banners', lista: 'banners', rotulo: (b) => b.titulo,
+        novo: () => ({ foto: 'banner-' + Date.now().toString(36) + '.jpg', titulo: 'NOVO BANNER', texto: '', botao: 'Ver produtos', acao: 'catalogo:' }),
         foto: (b) => b.foto, campos: [['titulo', 'Título'], ['texto', 'Texto', 'area'], ['botao', 'Texto do botão']] },
-      { titulo: 'Coleções', lista: 'categorias', fixo: true, rotulo: (c) => c.nome,
+      { titulo: 'Coleções', lista: 'categorias', rotulo: (c) => c.nome,
+        novo: () => {
+          const id = 'c' + Date.now().toString(36);
+          rascunho.prateleiras = (rascunho.prateleiras || []).concat(id);
+          return { id, nome: 'Nova coleção', foto: 'colecao-' + id + '.jpg', texto: '' };
+        },
         foto: (c) => c.foto, campos: [['nome', 'Nome'], ['texto', 'Descrição', 'area']] },
       { titulo: 'Produtos', lista: 'produtos', busca: true, rotulo: (p) => `${p.nome} · ${real(p.preco)}`,
         foto: (p) => 'produtos/' + p.id + '.jpg',
         campos: [['nome', 'Nome'], ['cat', 'Coleção', 'cat'], ['preco', 'Preço (R$)', 'num'], ['de', 'Preço antigo riscado (opcional)', 'num'],
           ['selo', 'Etiqueta (ex.: Novo, Promo)'], ['descricao', 'Descrição (opcional)', 'area']],
-        novo: () => ({ id: 'p' + Date.now().toString(36), cat: rascunho.categorias[0].id, nome: 'Novo produto', preco: 0 }) },
+        novo: () => ({ id: 'p' + Date.now().toString(36), cat: (rascunho.categorias[0] || {}).id || '', nome: 'Novo produto', preco: 0 }) },
       { titulo: 'Opções de compra (STL / impresso)', lista: 'variacoesPadrao', rotulo: (v) => v.nome,
         campos: [['nome', 'Nome da opção'], ['acrescimo', 'Valor a mais (R$)', 'num']], novo: () => ({ nome: 'Nova opção', acrescimo: 0 }) },
       { titulo: 'Sobre', campos: [['sobre.titulo', 'Título'], ['sobre.texto', 'Texto', 'area'], ['sobre.botao', 'Texto do botão']],
@@ -173,7 +214,10 @@
     let filtroProd = '';
 
     function miniFoto(caminho, legenda) {
-      return `<div class="ed-foto">${window.Loja.foto(caminho, legenda, legenda, 'ed-mini')}<span>${esc(legenda)}</span></div>`;
+      const tem = !!fotos[caminho];
+      return `<div class="ed-foto">${window.Loja.foto(caminho, legenda, legenda, 'ed-mini')}
+        ${tem && assets ? `<button class="ed-menos ed-foto-x" data-tirar="${esc(caminho)}" title="Remover foto" aria-label="Remover foto ${esc(legenda)}">−</button>` : ''}
+        <span>${esc(legenda)}</span></div>`;
     }
     function campo(base, cam, rotulo, tipo) {
       const v = pega(base, cam);
@@ -195,30 +239,30 @@
         if (s.extraLista) {
           const arr = pega(rascunho, s.extraLista.chave) || [];
           html += `<div class="ed-sub">${esc(s.extraLista.titulo)}</div>` + arr.map((t, i) => `
-            <div class="ed-linha"><input type="text" data-c="${esc(s.extraLista.chave)}.${i}" value="${esc(t)}"><button class="ed-x" data-rem="${esc(s.extraLista.chave)}" data-i="${i}" aria-label="Remover">✕</button></div>`).join('')
+            <div class="ed-linha"><input type="text" data-c="${esc(s.extraLista.chave)}.${i}" value="${esc(t)}"><button class="ed-x ed-menos" data-rem="${esc(s.extraLista.chave)}" data-i="${i}" title="Remover" aria-label="Remover">−</button></div>`).join('')
             + `<button class="ed-mais" data-add-lista="${esc(s.extraLista.chave)}">+ adicionar vantagem</button>`;
         }
         if (s.lista) {
           const arr = rascunho[s.lista] || [];
           if (s.busca) html += `<input type="search" class="ed-busca" placeholder="Buscar produto…" value="${esc(filtroProd)}" data-busca>`;
           if (s.simples) {
-            html += arr.map((t, i) => `<div class="ed-linha"><input type="text" data-c="${s.lista}.${i}" value="${esc(t)}"><button class="ed-x" data-rem="${s.lista}" data-i="${i}" aria-label="Remover">✕</button></div>`).join('');
+            html += arr.map((t, i) => `<div class="ed-linha"><input type="text" data-c="${s.lista}.${i}" value="${esc(t)}"><button class="ed-x ed-menos" data-rem="${s.lista}" data-i="${i}" title="Remover" aria-label="Remover">−</button></div>`).join('');
           } else {
             html += arr.map((item, i) => {
               if (s.busca && filtroProd && !item.nome.toLowerCase().includes(filtroProd.toLowerCase())) return '';
               const chave = s.lista + ':' + (item.id || i);
               return `<details class="ed-item" data-chave="${esc(chave)}" ${abertos.has(chave) ? 'open' : ''}>
-                <summary>${s.foto ? `<img src="${esc(window.Loja.fotoUrl(s.foto(item)))}" alt="" onerror="this.style.visibility='hidden'">` : ''}<span>${esc(s.rotulo(item) || '(sem nome)')}</span></summary>
+                <summary>${s.foto ? `<img src="${esc(window.Loja.fotoUrl(s.foto(item)))}" alt="" onerror="this.style.visibility='hidden'">` : ''}<span>${esc(s.rotulo(item) || '(sem nome)')}</span><button class="ed-menos" data-rem="${s.lista}" data-i="${i}" title="Remover" aria-label="Remover ${esc(s.rotulo(item) || 'item')}">−</button></summary>
                 <div class="ed-item-corpo">
                   ${s.foto ? `<div class="ed-fotos">${miniFoto(s.foto(item), s.lista === 'produtos' ? 'Foto principal' : 'Foto')}
                     ${s.lista === 'produtos' ? [2, 3, 4].map((n) => miniFoto(`produtos/${item.id}-${n}.jpg`, `Extra ${n}`)).join('') : ''}</div>` : ''}
                   ${s.campos.map(([c, r, t]) => campo(rascunho, `${s.lista}.${i}.${c}`, r, t)).join('')}
-                  ${s.fixo ? '' : `<button class="ed-remover" data-rem="${s.lista}" data-i="${i}">Remover</button>`}
+                  <button class="ed-remover" data-rem="${s.lista}" data-i="${i}">− Remover ${s.lista === 'produtos' ? 'produto' : s.lista === 'banners' ? 'banner' : s.lista === 'categorias' ? 'coleção' : 'item'}</button>
                 </div>
               </details>`;
             }).join('');
           }
-          if (!s.fixo) html += `<button class="ed-mais" data-novo="${s.lista}">+ adicionar</button>`;
+          html += `<button class="ed-mais" data-novo="${s.lista}">+ adicionar</button>`;
         }
         return `<details class="ed-secao" data-secao="${esc(s.titulo)}" ${abertos.has(s.titulo) ? 'open' : ''}><summary>${esc(s.titulo)}${s.lista ? ` <small>${(rascunho[s.lista] || []).length}</small>` : ''}</summary><div class="ed-secao-corpo">${html}</div></details>`;
       }).join('');
@@ -257,14 +301,32 @@
     });
     corpo.addEventListener('click', (e) => {
       const rem = e.target.closest('[data-rem]');
+      const tirar = e.target.closest('[data-tirar]');
       const novo = e.target.closest('[data-novo]');
       const addL = e.target.closest('[data-add-lista]');
+      if (tirar) {
+        e.preventDefault(); e.stopPropagation();
+        if (confirmou(tirar, 'Tirar?')) tirarFoto(tirar.dataset.tirar);
+        return;
+      }
       if (rem) {
-        const arr = pega(rascunho, rem.dataset.rem);
-        const item = arr[Number(rem.dataset.i)];
-        const nome = typeof item === 'string' ? item : (item.nome || item.p || 'este item');
-        if (!confirm(`Remover "${nome}"?`)) return;
-        arr.splice(Number(rem.dataset.i), 1);
+        e.preventDefault(); e.stopPropagation();
+        const lista = rem.dataset.rem;
+        const arr = pega(rascunho, lista);
+        const i = Number(rem.dataset.i);
+        const item = arr[i];
+        let pergunta = 'Remover?';
+        if (lista === 'categorias') {
+          const n = rascunho.produtos.filter((p) => p.cat === item.id).length;
+          if (n) pergunta = `Remover com ${n} produto${n > 1 ? 's' : ''}?`;
+        }
+        if (!confirmou(rem, pergunta)) return;
+        arr.splice(i, 1);
+        if (lista === 'categorias') {
+          rascunho.produtos = rascunho.produtos.filter((p) => p.cat !== item.id);
+          rascunho.prateleiras = (rascunho.prateleiras || []).filter((c) => c !== item.id);
+        }
+        window.Loja.aviso('Removido · clique em Salvar para confirmar');
       } else if (novo) {
         const s = SECOES.find((x) => x.lista === novo.dataset.novo);
         const item = s.novo();

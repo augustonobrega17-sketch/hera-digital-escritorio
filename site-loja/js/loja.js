@@ -102,7 +102,8 @@
     /* ---------- Hero ---------- */
     {
       const el = $('#hero');
-      const B = L.banners;
+      const B = L.banners || [];
+      el.hidden = !B.length;
       el.innerHTML = B.map((b, i) => `
         <div class="slide${i === 0 ? ' ativo' : ''}" aria-roledescription="slide" aria-label="${i + 1} de ${B.length}">
           ${foto(b.foto, '1920 × 900 px (horizontal)', b.titulo, '', i === 0 ? 'eager' : 'lazy')}
