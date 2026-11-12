@@ -258,6 +258,8 @@ class Actor {
     if (st === 'offline')      { this.act = 'fora do expediente'; return; }
     if (this.microBreak > 0)   { this.act = 'pegando um café'; return; }
     if (this.moving)           { this.act = 'indo para ' + (this.slot ? (this.slot.label || 'a estação') : 'algum lugar'); return; }
+    const dem = (typeof DEMANDAS !== 'undefined') ? DEMANDAS.ativaDe(this.a.sistema) : null;
+    if (dem)                   { this.act = '📥 demanda: ' + dem.titulo; return; }
     if (st === 'trabalhando')  { this.act = this.slot ? ('produzindo na ' + this.slot.label) : 'procurando mesa livre'; return; }
     if (st === 'reuniao')      { this.act = 'em reunião'; return; }
     if (st === 'descanso')     { this.act = this.slot ? this.slot.act : 'dando uma volta na pausa'; return; }
@@ -309,7 +311,10 @@ class Actor {
                               this.a.boss ? '#c4b8ff' : col,
                               this.a.boss ? 'DONO' : null) + 4;
     }
-    if (opts.status && !this.moving) {
+    const emDemanda = (typeof DEMANDAS !== 'undefined') && DEMANDAS.ativaDe(this.a.sistema);
+    if (opts.status && !this.moving && emDemanda) {
+      AVATAR.bubble(ctx, p.x, stack, '📥', 'demanda', '#FFB547');
+    } else if (opts.status && !this.moving) {
       const ic = this.a.status === 'trabalhando' ? '💻'
                : this.a.status === 'descanso' ? '🎮'
                : this.a.status === 'reuniao' ? '🗣️' : '💤';
@@ -1537,6 +1542,7 @@ renderAll();
 tickClock();
 setInterval(tickClock, 15000);
 REUNIAO.ligarEventos();
+DEMANDAS.ligarEventos();
 setInterval(sincronizaReuniao, 4000);
 setInterval(() => { renderStats(); if ($('#pane-equipe').classList.contains('active')) renderTeam(); }, 2500);
 setInterval(renderRooms, 4000);

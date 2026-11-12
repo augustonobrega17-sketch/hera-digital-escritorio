@@ -50,6 +50,25 @@ campanhas, posts…), então um sistema enxerga o que o outro registrou.
   `sistemas/comercial/app.js`.
 - Os sistemas só aceitam conexões desta máquina.
 
+**O quadro de demandas (agentes trabalhando de verdade)**
+
+O botão **📥 Demandas** no topo abre o quadro. Você escolhe o funcionário e o
+cliente e escreve o pedido como explicaria para uma pessoa. A demanda entra na
+fila e o agente executa sozinho com o **Claude Code**, usando a cota do seu
+plano Claude. Ele lê os dados dos sistemas e grava a entrega no sistema dele
+como rascunho. Você aprova ou pede ajuste: o ajuste continua a mesma conversa.
+
+- Um agente trabalha por vez (para não esgotar a cota do plano), no máximo 15
+  minutos por rodada. Prioridade alta passa na frente da fila.
+- Enquanto trabalha, o boneco mostra o balão 📥 no andar.
+- Os agentes leem e gravam arquivos de dados e podem pesquisar na web. Não rodam
+  comandos, não leem `.env` e não publicam, enviam nem mexem em campanha.
+- A personalidade de cada um está em `sistemas/<area>/CLAUDE.md`, e as regras da
+  agência em `sistemas/CLAUDE.md`. O nome que vale é o que está no escritório.
+- Precisa do Claude Code instalado e logado nesta máquina (`claude auth login`).
+- O histórico fica em `data/demandas.json` (fora do git). `demandas.modelo` em
+  `data/config.json` troca o modelo (padrão: sonnet).
+
 **A marca**
 
 O manual de identidade visual fica em **http://localhost:4321/marca/** (botão

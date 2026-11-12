@@ -545,12 +545,29 @@ const REUNIAO = require('./reuniao').init({ ROOT, lerRegistro, CLAUDE_BIN, confi
   avisar: (t, x, p) => AVISOS.avisar(t, x, p).catch(() => {}) });
 REUNIAO.agendar(equipeDoDisco);
 
+/* O nome de cada funcionário pode ser trocado na tela (a Lia virou Zoe, o Léo
+   virou Noah). O CLAUDE.md de cada sistema traz o nome padrão; o nome que vale
+   é o do escritório, e ele vai junto em cada conversa e demanda. */
+function quemSou(sistema) {
+  const eq = equipeDoDisco();
+  const eu = eq.find(a => a.sistema === sistema);
+  const time = eq.filter(a => a.sistema && String(a.sistema).startsWith('hera-'))
+    .map(a => `${a.name} (${a.role})`).join(', ');
+  return (eu ? ` Seu nome no escritório é ${eu.name}, ${eu.role}: use esse nome, mesmo que o CLAUDE.md traga outro.` : '') +
+         (time ? ` A equipe contratada hoje: ${time}.` : '');
+}
+
+/* o quadro de demandas: pedido do dono → agente executa → aprovação (ver demandas.js) */
+const DEMANDAS = require('./demandas').init({ ROOT, lerRegistro, CLAUDE_BIN, config: lerConfig, quemSou,
+  avisar: (t, x, p) => AVISOS.avisar(t, x, p).catch(() => {}) });
+
 const PAPEL =
-  'Você é o agente responsável por este sistema dentro do escritório de agentes, ' +
-  'o painel que o dono usa para acompanhar os agentes dele. Responda em português do ' +
-  'Brasil, direto ao ponto, sem enrolação. Quando investigar um problema, diga a causa ' +
-  'provável, a evidência que te levou até ela, e o que fazer — nessa ordem. Prefira rodar ' +
-  'os scripts de diagnóstico do próprio projeto a adivinhar. Se não tiver certeza, diga.';
+  'Você é o funcionário da Hera Digital descrito no CLAUDE.md desta pasta (nos sistemas da ' +
+  'Hera há também as regras da agência em ../CLAUDE.md): fale em primeira pessoa, como ele. ' +
+  'Quem está conversando com você é o Augusto, o dono. Responda em português do Brasil, ' +
+  'direto ao ponto, sem enrolação. Quando investigar um problema, diga a causa provável, a ' +
+  'evidência que te levou até ela, e o que fazer — nessa ordem. Se não tiver certeza, diga. ' +
+  'Pedido de trabalho maior (criar conteúdo, palavras, plano) cabe melhor no quadro de demandas.';
 
 function conversaDe(id) {
   let c = conversas.get(id);
@@ -571,7 +588,7 @@ function perguntar(id, texto, modo) {
   // pela linha de comando, então não precisa de escape nenhum
   const args = ['-p', '--output-format', 'json',
                 '--permission-mode', modo === 'resolver' ? 'acceptEdits' : 'plan',
-                '--append-system-prompt', PAPEL];
+                '--append-system-prompt', PAPEL + quemSou(id)];
   if (c.sessionId) args.push('--resume', c.sessionId);
 
   c.rodando = true; c.erro = null;
@@ -763,6 +780,22 @@ const servidor = http.createServer(async (req, res) => {
 
   if (rota === '/api/claude' && req.method === 'GET') {
     return json(res, 200, await estadoClaude());
+  }
+
+  /* ---- quadro de demandas ---- */
+  if (rota === '/api/demandas' && req.method === 'GET') return json(res, 200, DEMANDAS.estado());
+  if (rota === '/api/demandas/clientes' && req.method === 'GET') return json(res, 200, DEMANDAS.clientes());
+  const mdem = rota.match(/^\/api\/demandas(?:\/([a-z0-9]+)\/(aprovar|refazer|tentar|cancelar|apagar))?$/i);
+  if (mdem && req.method === 'POST') {
+    let corpo = '';
+    req.on('data', c => { corpo += c; if (corpo.length > 1e5) req.destroy(); });
+    req.on('end', () => {
+      let b = {};
+      try { b = JSON.parse(corpo || '{}'); } catch (e) { return json(res, 400, { ok: false, motivo: 'JSON inválido' }); }
+      if (!mdem[1]) return json(res, 200, DEMANDAS.criar(b));
+      return json(res, 200, DEMANDAS.acao(mdem[1], mdem[2], b.comentario));
+    });
+    return;
   }
   /* A equipe mora aqui, não no navegador. Ver o comentário em roster.js:
      o localStorage já apagou o quadro inteiro uma vez. */

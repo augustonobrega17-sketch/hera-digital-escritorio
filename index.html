@@ -36,8 +36,9 @@
     </div>
 
     <div class="topactions">
+      <button id="btn-demandas" class="btn primary" title="Quadro de demandas: peça um trabalho para um agente">📥 Demandas</button>
       <a id="btn-marca" class="btn" href="/marca/" title="Manual de identidade visual">◉ Marca</a>
-      <button id="btn-quadro" class="btn primary" title="Ideias e agenda da sala do chefe">📌 Quadro</button>
+      <button id="btn-quadro" class="btn" title="Ideias e agenda da sala do chefe">📌 Quadro</button>
       <button id="btn-avisos" class="btn" title="Avisos no celular">🔔 Avisos</button>
       <button id="btn-report" class="btn" title="Relatório do gerente">📋 Relatório</button>
       <button id="btn-voice" class="btn" title="Falar com o gerente">🎤 Voz</button>
@@ -183,6 +184,41 @@
   </div>
 </div>
 
+<!-- ============ QUADRO DE DEMANDAS ============ -->
+<div id="demandas" class="hidden">
+  <div class="dm-card-geral">
+    <header class="rn-top">
+      <div>
+        <h2>📥 QUADRO DE DEMANDAS</h2>
+        <div class="quando" id="dm-resumo">—</div>
+      </div>
+      <div class="rn-acoes">
+        <button class="btn ghost" id="dm-x">✕</button>
+      </div>
+    </header>
+    <div class="dm-grade">
+      <section class="dm-novo">
+        <h3>Nova demanda</h3>
+        <label>Para quem<select id="dm-agente"></select></label>
+        <label>Cliente<select id="dm-cliente"></select></label>
+        <label>Título <small>(opcional)</small><input id="dm-titulo" maxlength="120" placeholder="Ex.: Palavras-chave TikTok da Brisanet"></label>
+        <label>Pedido<textarea id="dm-pedido" rows="9" placeholder="Explique como explicaria para um funcionário: o que precisa, para quê, prazo, referências, o que evitar…"></textarea></label>
+        <label>Prioridade<select id="dm-prio"><option value="normal">Normal</option><option value="alta">Alta (passa na frente)</option><option value="baixa">Baixa</option></select></label>
+        <button class="btn primary" id="dm-enviar">Enviar demanda</button>
+        <p class="dm-dica">Um agente trabalha por vez, usando a cota do seu plano Claude. Ele entrega um rascunho: nada vai ao ar nem chega ao cliente sem a sua aprovação.</p>
+        <p id="dm-msg" class="dm-aviso hidden"></p>
+      </section>
+      <section class="dm-direita">
+        <nav class="dm-filtros">
+          <button class="dm-filtro on" data-f="ativas">Em andamento</button>
+          <button class="dm-filtro" data-f="feitas">Concluídas</button>
+        </nav>
+        <div id="dm-lista"></div>
+      </section>
+    </div>
+  </div>
+</div>
+
 <!-- ============ MODAL FICHA DO FUNCIONÁRIO ============ -->
 <div id="modal" class="modal hidden">
   <div class="modal-card">
@@ -203,6 +239,7 @@
 <script src="js/roster.js"></script>
 <script src="js/reuniao.js"></script>
 <script src="js/avisos.js"></script>
+<script src="js/demandas.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
