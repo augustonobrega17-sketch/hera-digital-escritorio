@@ -92,6 +92,89 @@ H.app({
       });
     } },
 
+    { id: 'tiktok', nome: 'Palavras TikTok', render: async m => {
+      const COL = 'tiktok-palavras';
+      const STATUS = ['para aprovar', 'aprovada', 'descartada'];
+      const seloSt = s => el('span', { class: 'selo ' + ({ aprovada: 'ok', descartada: 'ruim' }[s] || 'alerta') }, s);
+      const seloPr = p => el('span', { class: 'selo ' + ({ alta: 'ok', 'média': 'info', baixa: '' }[p] || '') }, p);
+      const seloUso = u => el('span', { class: 'selo ' + ({ 'Search Ads': 'roxo', Negativa: 'ruim', Hashtag: 'info' }[u] || '') }, u);
+      const f = { cliente: '', grupo: '', uso: '', status: '' };
+      const notas = await H.col('tiktok-notas', true);
+      const area = el('div');
+
+      async function editar(item) {
+        const lista = await H.col(COL);
+        const r = await H.modal({ titulo: item ? 'Editar palavra' : 'Nova palavra', apagar: !!item,
+          valores: item || { cliente: f.cliente, grupo: f.grupo, uso: 'Search Ads', correspondencia: 'frase', prioridade: 'média', status: 'para aprovar', origem: 'Augusto' },
+          campos: [
+            { k: 'cliente', rot: 'Cliente', tipo: 'cliente' }, { k: 'grupo', rot: 'Grupo de anúncio' },
+            { k: 'palavra', rot: 'Palavra-chave / hashtag', largo: true },
+            { k: 'uso', rot: 'Uso', tipo: 'select', opcoes: ['Search Ads', 'Negativa', 'Hashtag'] },
+            { k: 'correspondencia', rot: 'Correspondência', tipo: 'select', opcoes: ['exata', 'frase', 'ampla', '—'] },
+            { k: 'intencao', rot: 'Intenção', tipo: 'select', opcoes: ['marca', 'compra', 'pesquisa', 'descoberta', '—'] },
+            { k: 'prioridade', rot: 'Prioridade', tipo: 'select', opcoes: ['alta', 'média', 'baixa'] },
+            { k: 'status', rot: 'Status', tipo: 'select', opcoes: STATUS },
+            { k: 'nota', rot: 'Observação', largo: true }] });
+        if (!r) return;
+        if (r.__apagar) await H.salvar(COL, lista.filter(x => x.id !== item.id));
+        else if (item) await H.salvar(COL, lista.map(x => x.id === item.id ? r : x));
+        else { r.id = H.uid('tk'); await H.salvar(COL, [r, ...lista]); }
+        pinta();
+      }
+
+      function csv(lista) {
+        const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+        const linhas = ['Cliente;Grupo;Palavra-chave;Correspondência;Uso;Intenção;Prioridade;Status;Observação']
+          .concat(lista.map(l => [l.cliente, l.grupo, l.palavra, l.correspondencia, l.uso, l.intencao, l.prioridade, l.status, l.nota].map(q).join(';')));
+        const a = el('a', { href: URL.createObjectURL(new Blob(['﻿' + linhas.join('\r\n')], { type: 'text/csv;charset=utf-8' })),
+                            download: `tiktok-palavras-${(f.cliente || 'todos').toLowerCase().replace(/\s+/g, '-')}.csv` });
+        document.body.appendChild(a); a.click(); a.remove();
+      }
+
+      async function pinta() {
+        const todas = await H.col(COL, true);
+        const lista = todas.filter(l => (!f.cliente || l.cliente === f.cliente) && (!f.grupo || l.grupo === f.grupo)
+                                      && (!f.uso || l.uso === f.uso) && (!f.status || l.status === f.status));
+        const sel = (k, rot, ops) => el('select', { onchange: e => { f[k] = e.target.value; pinta(); } },
+          el('option', { value: '' }, rot), ops.map(o => el('option', { value: o, selected: f[k] === o }, o)));
+        const unicos = k => [...new Set(todas.map(l => l[k]).filter(Boolean))].sort();
+        const search = lista.filter(l => l.uso === 'Search Ads');
+        area.innerHTML = '';
+        area.append(
+          el('div', { class: 'cab' },
+            el('div', {}, el('h2', {}, 'Palavras-chave TikTok'),
+              el('p', { class: 'sub', style: 'margin:0' }, 'Search Ads, hashtags de interesse e negativas. Revise, aprove e baixe a planilha para subir no TikTok Ads.')),
+            el('div', { class: 'acoes' },
+              el('button', { class: 'btn', onclick: () => csv(lista) }, '⬇ Baixar planilha'),
+              el('button', { class: 'btn', onclick: async () => {
+                const ids = new Set(lista.filter(l => l.status === 'para aprovar').map(l => l.id));
+                if (!ids.size || !(await H.confirmar(`Aprovar ${ids.size} palavra(s) que estão na tela?`))) return;
+                await H.salvar(COL, todas.map(l => ids.has(l.id) ? Object.assign({}, l, { status: 'aprovada' }) : l)); H.toast('Aprovadas.'); pinta();
+              } }, '✓ Aprovar as da tela'),
+              el('button', { class: 'btn pri', onclick: () => editar(null) }, '+ Nova palavra'))),
+          el('div', { class: 'filtros' }, sel('cliente', 'Todos os clientes', unicos('cliente')), sel('grupo', 'Todos os grupos', unicos('grupo')),
+            sel('uso', 'Todos os usos', ['Search Ads', 'Negativa', 'Hashtag']), sel('status', 'Todos os status', STATUS)),
+          H.kpis([
+            { rot: 'Search Ads', val: search.length, sub: search.filter(l => l.origem !== 'Léo').length + ' suas · ' + search.filter(l => l.origem === 'Léo').length + ' do Léo' },
+            { rot: 'Prioridade alta', val: search.filter(l => l.prioridade === 'alta').length, cor: 'var(--verde)' },
+            { rot: 'Negativas', val: lista.filter(l => l.uso === 'Negativa').length, cor: 'var(--rosa)' },
+            { rot: 'Hashtags', val: lista.filter(l => l.uso === 'Hashtag').length, cor: 'var(--pavao)' },
+            { rot: 'Para aprovar', val: lista.filter(l => l.status === 'para aprovar').length, cor: 'var(--ouro)' }
+          ]),
+          ...notas.filter(n => !f.cliente || n.cliente === f.cliente).map(n => el('details', { class: 'card', style: 'margin-bottom:14px' },
+            el('summary', { style: 'cursor:pointer;font:700 14px var(--f-d)' }, '🎯 Raciocínio do Léo · ' + n.titulo + ' · ' + fmt.data(n.data)),
+            el('div', { class: 'saida', style: 'margin-top:10px' }, n.texto))),
+          H.tabela({ linhas: lista, aoAbrir: editar, vazio: 'Nenhuma palavra com esses filtros.', colunas: [
+            { k: 'grupo', rot: 'Grupo' }, { k: 'palavra', rot: 'Palavra-chave', fmt: v => el('b', {}, v) },
+            { k: 'uso', rot: 'Uso', fmt: seloUso }, { k: 'correspondencia', rot: 'Corresp.' }, { k: 'intencao', rot: 'Intenção' },
+            { k: 'prioridade', rot: 'Prioridade', ordem: l => ({ alta: 0, 'média': 1, baixa: 2 }[l.prioridade] ?? 3), fmt: seloPr },
+            { k: 'origem', rot: 'Origem', fmt: v => v === 'Léo' ? '🎯 Léo' : '👑 ' + v },
+            { k: 'status', rot: 'Status', fmt: seloSt }, { k: 'nota', rot: 'Observação', quebra: true }] }));
+      }
+      m.appendChild(area);
+      await pinta();
+    } },
+
     { id: 'alertas', nome: 'Alertas do dia', render: async m => {
       const lista = await H.col('campanhas', true);
       const al = alertasDe(lista);

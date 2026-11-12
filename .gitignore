@@ -15,3 +15,6 @@ sistemas/_dados/
 
 # token da Meta (Tráfego ao vivo) e outros segredos locais
 .env.local
+
+# entregas para clientes (planilhas, relatórios)
+entregas/
